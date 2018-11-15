@@ -14,18 +14,25 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package tomago
+package wallet
 
-import "net/http"
+import (
+	commdid "github.com/arxanchain/sdk-go-common/structs/did"
+)
 
-//TomagoClient Interface
-type ITomagoClient interface {
-	GetBlockchainClient() IBlockchainClient
+// IndexTags ...
+type IndexTags struct {
+	CombinedIndex   []string `json:"combined_index,omitempty"`
+	IndividualIndex []string `json:"individual_index,omitempty"`
 }
 
-//Blockchain Interface
-type IBlockchainClient interface {
-	Invoke(http.Header, *PayloadWithTags) (*ChaincodeResponse, error)
-	Query(http.Header, *PayloadWithTags) (*ChaincodeResponse, error)
-	QueryTxn(http.Header, string) (*TransactionResponse, error)
+// IndexSetPayload represents the payload of IndexSet interface
+type IndexSetPayload struct {
+	Id     commdid.Identifier `json:"id,omitempty"`
+	Indexs *IndexTags         `json:"indexs,omitempty"`
+}
+
+// IndexGetPayload represents the payload of IndexGet interface
+type IndexGetPayload struct {
+	Indexs *IndexTags `json:"indexs,omitempty"`
 }

@@ -1,5 +1,5 @@
 /*
-Copyright ArxanFintech Technology Ltd. 2018 All Rights Reserved.
+Copyright ArxanFintech Technology Ltd. 2017-2018 All Rights Reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,18 +14,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package tomago
+package wallet
 
-import "net/http"
+////////////////////////////////////////////////////////////////////////////////
+// Transaction Logs Structs
 
-//TomagoClient Interface
-type ITomagoClient interface {
-	GetBlockchainClient() IBlockchainClient
-}
-
-//Blockchain Interface
-type IBlockchainClient interface {
-	Invoke(http.Header, *PayloadWithTags) (*ChaincodeResponse, error)
-	Query(http.Header, *PayloadWithTags) (*ChaincodeResponse, error)
-	QueryTxn(http.Header, string) (*TransactionResponse, error)
-}
+const (
+	// TxnLogTypeIn is the type of imported transaction logs
+	TxLogTypeIn string = "in"
+	// TxnLogTypeOut is the type of outputed transaction logs
+	TxLogTypeOut string = "out"
+)

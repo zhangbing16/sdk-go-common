@@ -106,6 +106,10 @@ type Config struct {
 
 	// CacheClient is used to cache auth token
 	CacheClient ICacheClient
+
+	// TrusteeKeyPairEnable is used to set the flag of trust key pair,
+	// if you want to trust, set the flag is true.
+	TrusteeKeyPairEnable bool
 }
 
 // TLSConfig is used to generate a TLSClientConfig that's useful for talking to
@@ -418,11 +422,8 @@ func (r *Request) SetBody(obj interface{}) error {
 			return fmt.Errorf("API-Key header must be set when enable crypto mode")
 		}
 
-		log.Printf("API-Key in header is: %s", apiKey)
-
 		objData, ok = obj.([]byte)
 		if !ok {
-			log.Println("Data asserted to binary data failed, serialized with the JSON struct")
 			objData, err = json.Marshal(obj)
 			if err != nil {
 				log.Printf("json.Marshal input object fail: %v", err)
@@ -439,13 +440,10 @@ func (r *Request) SetBody(obj interface{}) error {
 
 		b = bytes.NewBufferString(cipherObjData)
 	} else {
-		log.Println("Woking on plaintext transmission mode")
-
 		objData, ok = obj.([]byte)
 		if ok && objData != nil {
 			b = bytes.NewBuffer(objData)
 		} else {
-			log.Println("Data asserted to binary data failed, serialized with the JSON struct")
 			b, err = EncodeBody(obj)
 			if err != nil {
 				log.Printf("EncodeBody fail: %v", err)
